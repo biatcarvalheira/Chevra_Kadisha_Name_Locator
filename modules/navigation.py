@@ -28,6 +28,8 @@ def make_request(url):
     success = True
     print('Keep Chrome Window Open')
     return driver, success
+import random
+
 def make_request_headless(url):
     options = webdriver.ChromeOptions()
     options.add_argument("--headless")
@@ -36,10 +38,16 @@ def make_request_headless(url):
 
     driver = webdriver.Chrome(service=service, options=options)
     driver.get(url)
-    time.sleep(1)
+    time.sleep(1)  # Initial wait time
+
+    # Generate a random wait time between 1 and 5 seconds
+    wait_time = random.uniform(1, 5)
+    time.sleep(wait_time)
+
     success = True
     print('Loading url...')
     return driver, success
+
 
 
 

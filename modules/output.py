@@ -22,7 +22,7 @@ def add_lists_to_excel(first_name_list, last_name_list, date_of_death_list_crist
 
     df = pd.DataFrame(data)
     now = datetime.datetime.now()
-    datestamp = now.strftime('%Y-%m-%d_%H-%M-%S')
+    datestamp = now.strftime('%Y-%m-%d')
     script_dir = os.path.dirname(sys.argv[0])
     file_path = os.path.join(script_dir, f'Chevra_Kadisha_Resultado_de_Busca_{datestamp}.xlsx')
 

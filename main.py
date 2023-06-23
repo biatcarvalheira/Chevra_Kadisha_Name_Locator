@@ -75,11 +75,10 @@ def main():
                         #     print('DOD Cristian', date_of_death_list_cristian[list_count])
                         #     print('DOD Hebrew', date_of_death_list_hebrew[list_count])
                         #     list_count +=1
-
             driver.quit()
             counter += 1
-        # Save final Lists
-        add_lists_to_excel(first_name_list, last_name_list, date_of_death_list_cristian, date_of_death_list_hebrew)
+            # Save final Lists
+            add_lists_to_excel(first_name_list, last_name_list, date_of_death_list_cristian, date_of_death_list_hebrew)
 
         break
 
