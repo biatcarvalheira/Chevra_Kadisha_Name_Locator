@@ -4,14 +4,114 @@ from selenium.webdriver.chrome.options import Options
 #Selenium ChromeDriver
 TIMEOUT = 10
 current_path = os.path.dirname(os.path.abspath(__file__))
-print(current_path)
 chromeDriverFile = "chromedriver"
 folder_path = os.path.join(current_path, chromeDriverFile)
 
+name_list = 'nomes_de_familias.csv'
+name_list_path = os.path.join(current_path, name_list)
+#URLS
+bmw_url_list = ['https://www.bmwusa.com/inventory/results?FuelType=E', 'https://www.bmwusa.com/certified-preowned-search.html#/results?FuelType=Electric&Year=2020%7C2021%7C2022%7C2023', 'https://www.bmw.ca/en/ssl/InventorySearch.html', 'https://www.bmw.ca/en/ssl/PreOwnedSearch.html#/bookmark=aHR0cHM6Ly9ibXduYXRpb25hbGludmVudG9yeS5yaWNobW9uZGRheS5jb20vZW4vUHJlT3duZWRJbnZlbnRvcnlTZWFyY2g/ZGw9JHt1cmxQYXJhbWV0ZXIuZGx9JnNuPSR7dXJsUGFyYW1ldGVyLnNufSZyaWQ9JHt1cmxQYXJhbWV0ZXIucmlkfSZuPSR7dXJsUGFyYW1ldGVyLm59JmF0PSR7dXJsUGFyYW1ldGVyLmF0fQ==']
+mercedes_url_list = ['https://www.mbusa.com/en/inventory/search?class=EQB:SUV,EQE:SDN,EQS:SDN,EQS:SUV&place=ChIJOwg_06VPwokRYv534QaPC8g', 'https://www.mbusa.com/en/cpo/inventory/search?model=EQB300W4,EQB350W4,EQB250W,EQS450X,EQS580X4,EQS450X4,EQE500V4,EQE350V,AMGEQEV4,EQE350V4,EQS53V4,EQS580V4,EQS450V,EQS450V4,AMGEQSV4&place=ChIJOwg_06VPwokRYv534QaPC8g', 'https://www.mercedes-benz.ca/en/inventory/search?place=ChIJoajRnzS1WEwRIABNrq0MBAE', 'https://www.mercedes-benz.ca/en/cpo/inventory/search?place=ChIJDbdkHFQayUwR7-8fITgxTmU']
+polestar_url_list_usa = [
+'https://www.polestar.com/us/preconfigured-cars?dealercode=USBOS0018&zipcode=02134'
+'https://www.polestar.com/us/preconfigured-cars/?dealercode=USRKV0016&zipcode=20855',
+'https://www.polestar.com/us/preconfigured-cars/?dealercode=USNYC0031&zipcode=10023'
+'https://www.polestar.com/us/preconfigured-cars/?dealercode=USEHA0011&zipcode=07078',
+'https://www.polestar.com/us/preconfigured-cars/?dealercode=USWPR0011&zipcode=06880',
+'https://www.polestar.com/us/preconfigured-cars/?dealercode=USLRV0011&zipcode=08648',
+'https://www.polestar.com/us/preconfigured-cars/?dealercode=USCMH0017&zipcode=43213',
+'https://www.polestar.com/us/preconfigured-cars/?dealercode=USFHI0012&zipcode=48335',
+'https://www.polestar.com/us/preconfigured-cars/?dealercode=USCLT0024&zipcode=28262',
+'https://www.polestar.com/us/preconfigured-cars/?dealercode=USATL0019&zipcode=30341',
+'https://www.polestar.com/us/preconfigured-cars/?dealercode=USTPA0024&zipcode=33614',
+'https://www.polestar.com/us/preconfigured-cars/?dealercode=USGVY0011&zipcode=MN%2055416',
+'https://www.polestar.com/us/preconfigured-cars/?dealercode=USPBI0020&zipcode=33409',
+'https://www.polestar.com/us/preconfigured-cars/?dealercode=USFLL0022&zipcode=33317',
+'https://www.polestar.com/us/preconfigured-cars/?dealercode=USAPF0013&zipcode=FL%2034109',
+'https://www.polestar.com/us/preconfigured-cars/?dealercode=USGPV0011&zipcode=76051',
+'https://www.polestar.com/us/preconfigured-cars/?dealercode=USHOU0039&zipcode=77094',
+'https://www.polestar.com/us/preconfigured-cars/?dealercode=USAUS0020&zipcode=78752',
+'https://www.polestar.com/us/preconfigured-cars/?dealercode=USLTO0013&zipcode=80206',
+'https://www.polestar.com/us/preconfigured-cars/?dealercode=USPHX0026&zipcode=85251',
+'https://www.polestar.com/us/preconfigured-cars/?dealercode=USTUK0012&zipcode=98004',
+'https://www.polestar.com/us/preconfigured-cars/?dealercode=USMJI0012&zipcode=92651',
+'https://www.polestar.com/us/preconfigured-cars/?dealercode=USBVW0012&zipcode=97005',
+'https://www.polestar.com/us/preconfigured-cars/?dealercode=USVNY0011&zipcode=90212',
+'https://www.polestar.com/us/preconfigured-cars/?dealercode=USSNN0011&zipcode=95050',
+'https://www.polestar.com/us/preconfigured-cars/?dealercode=USSRF0013&zipcode=94925'
+]
+polestar_url_list_canada = ['https://www.polestar.com/en-ca/preconfigured-cars/?dealercode=CALAV0017&zipcode=H7T%202W3', 'https://www.polestar.com/en-ca/preconfigured-cars/?dealercode=CATOR0015&zipcode=M5R%203L2', 'https://www.polestar.com/en-ca/preconfigured-cars/?dealercode=CAVAN0014&zipcode=V7T%202Y5']
 
-#input file
-input_file = 'nomes de familias.csv'
-input_file_folder_path = os.path.join(current_path, input_file)
+polestar_url_list_usa_used = [
+    'https://www.polestar.com/us/preowned-cars/search-result/polestar-1/',
+    'https://www.polestar.com/us/preowned-cars/search-result/polestar-2/',
+    'https://www.polestar.com/us/preowned-cars/search-result/polestar-3/'
+]
+polestar_url_list_canada_used = [
+    'https://www.polestar.com/en-ca/preowned-cars/search-result/polestar-1/',
+    'https://www.polestar.com/en-ca/preowned-cars/search-result/polestar-2/',
+    'https://www.polestar.com/en-ca/preowned-cars/search-result/polestar-3/'
+]
+#BMW - USA New/Used - XPaths
+
+bmw_location_field = '//*[@id="zipentry-input"]'
+bmw_shop_now_button = '//*[@id="app"]/div/div/div/div[3]/form/button'
+bmw_select_result = '//*[@id="app"]/div/div/div/div[4]/div/div[2]/div[1]/div[2]/button'
+bmw_vehicles_available_now = '//*[@id="app"]/div/div[2]/div/div[1]/label/span'
+bmw_pre_owned_selection = '//*[@id="app"]/div/div[4]/div/div[1]/div[2]/label/div'
+bmw_fuel_type = '//*[@id="app"]/div/div[2]/div/div[9]/button/span'
+bmw_fuel_type_used = '//*[@id="app"]/div/div[4]/div/div[11]/button/i'
+bmw_electric_checkbox = '//*[@id="fueltype"]/div/label[1]/span[1]'
+bmw_electric_checkbox_used = '//*[@id="fueltype"]/div/label[3]/div'
+bmw_confirm_popup = '/html/body/div[3]/div/button'
+bmw_set_range = '//*[@id="app"]/div/div[1]/div[2]/div/div[1]/button/span'
+bmw_select_10_miles = '//*[@id="app"]/div/div[1]/div[2]/div/div[1]/div/div/div[2]/div[4]/button[1]'
+bmw_select_range_50_miles = '//*[@id="app"]/div/div[1]/div[2]/div/div[1]/div/div/div[2]/div[4]/button[3]'
+bmw_select_range_100_miles = '//*[@id="app"]/div/div[1]/div[2]/div/div[1]/div/div/div[2]/div[4]/button[4]'
+bmw_update_range = '//*[@id="app"]/div/div[1]/div[2]/div/div[1]/div/div/div[2]/button[2]'
+bmw_next_page = '//*[@id="scroll-top-target"]/div[4]/button[2]'
+
+#BMW - Canada New/Used - XPaths
+
+bmw_ca_ok_cookies_button = '/html/body/epaas-consent-drawer-shell//html/body/div/div/section/div[3]/div/div[2]/button/span'
+bmw_ca_close_initial_location_window = '//*[@id="province-selection--modal-close"]'
+bmw_ca_select_provinces_list = '//*[@id="dlProvince"]'
+bmw_ca_select_bc = '//*[@id="dlProvince"]/option[3]'
+bmw_ca_select_quebec = '//*[@id="dlProvince"]/option[9]'
+bmw_ca_continue_button = '//*[@id="province-selection--button"]'
+bmw_ca_select_retailer = '//*[@id="FilterContainer"]/div/div[1]/div[2]/div[4]/span/div/button'
+bmw_ca_select_all_retailers = '//*[@id="multiselect_006jdl93hu1wv_0_0"]'
+bmw_ca_select_advanced_search = '//*[@id="FilterContainer"]/div/div[1]/div[2]/div[5]/div[1]'
+bmw_ca_select_fuel_type = '//*[@id="dlFuelType"]'
+bmw_ca_select_electric = '//*[@id="dlFuelType"]/option[2]'
+bmw_ca_confirm_search = '//*[@id="FilterContainer"]/div/div[3]/div[3]/div[2]/div[2]/button'
+bmw_ca_next_page = '//*[@id="VehicleDiv"]/div[2]/div[1]/a'
+
+
+
+bmw_confirm_popup_used = '/html/body/div[3]/div/button'
+bmw_set_range_used = '//*[@id="app"]/div/div[3]/div[2]/div/div[1]/button/span'
+bmw_select_range_50_miles_used = '//*[@id="app"]/div/div[3]/div[2]/div/div[1]/div/div/div[2]/div[4]/button[3]'
+bmw_select_range_nationwide_used = '//*[@id="app"]/div/div[3]/div[2]/div/div[1]/div/div[1]/div[3]/div[4]/button[5]'
+bmw_update_range_used = '//*[@id="app"]/div/div[3]/div[2]/div/div[1]/div/div/div[2]/button[2]'
+
+
+#Mercedes - XPaths
+
+merc_enter_location_field = '//*[@id="_li7tjl3qqexjh"]'
+merc_select_first_choice = '//*[@id="listbox_li7tnh1h852j7"]/li[1]'
+merc_confirm_choice_location = '//*[@id="inventory-container"]/div/div/div/div/div/div[2]/button'
+
+
+#Polestar - XPaths
+pol_accept_cookies = '//*[@id="onetrust-accept-btn-handler"]'
+pol_location_field = '//*[@id="autocomplete-field-2"]'
+pol_select_first_option = '//*[@id="autocomplete-field-2-popover-0"]'
+pol_load_all_locations = '//*[@id="root"]/div[2]/div[4]/div[2]/div/div/section/div/div/div/div/div[1]/div[6]/button'
+pol_select_first_location = '//*[@id="root"]/div[2]/div[4]/div[2]/div/div/section/div/div/div/div/div[1]/div[6]/div[1]/button'
+pol_select_all_available_cars = '//*[@id="featuredInventorySection"]/div/div[3]/div[1]/a'
+pol_used_location_field = '//*[@id="text-field-1"]'
+pol_confirm_used_location = '//*[@id="root"]/div[2]/div[6]/div[2]/div/div/div/div[3]/button'
 
 #html terms
 button = 'button'

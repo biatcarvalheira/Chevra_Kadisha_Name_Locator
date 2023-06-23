@@ -9,6 +9,8 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.expected_conditions import presence_of_element_located, visibility_of_element_located
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC, wait
+from selenium.webdriver.chrome.service import Service
+
 
 
 
@@ -16,17 +18,23 @@ def close_driver(driver):
     driver.quit()
 
 def make_request(url):
-    driver = webdriver.Chrome(config.folder_path)
+    options = webdriver.ChromeOptions()
+    service = Service(executable_path=config.folder_path)
+
+    #options.add_argument("--window-size=1280,800")
+    driver = webdriver.Chrome(service=service, options=options)
     driver.get(url)
     time.sleep(1)
     success = True
     print('Keep Chrome Window Open')
     return driver, success
 def make_request_headless(url):
-    options = Options()
+    options = webdriver.ChromeOptions()
     options.add_argument("--headless")
     options.add_argument("--window-size=1280,800")
-    driver = webdriver.Chrome(config.folder_path, options=options)
+    service = Service(executable_path=config.folder_path)
+
+    driver = webdriver.Chrome(service=service, options=options)
     driver.get(url)
     time.sleep(1)
     success = True
@@ -49,7 +57,7 @@ def load_and_click(driver, xpath):
         label_content = element.text
         time.sleep(2)
         element.click()
-        print('Selecting... ', label_content)
+       # print('Selecting... ', label_content)
     except Exception as e:
         print("Unable to click element.")
         # Handle the case when the element is unclickable

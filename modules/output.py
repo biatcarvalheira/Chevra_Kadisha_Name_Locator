@@ -7,14 +7,16 @@ import sys
 input_list = []
 first_name_list = []
 last_name_list = []
-date_of_death_list = []
+date_of_death_list_cristian = []
+date_of_death_list_hebrew = []
 
-def add_lists_to_excel(first_name_list, last_name_list, date_of_death_list):
+def add_lists_to_excel(first_name_list, last_name_list, date_of_death_list_cristian, date_of_death_list_hebrew):
     # Create a DataFrame from the lists
     data = {
         'Nome': first_name_list,
         'Sobrenome': last_name_list,
-        'Data de Falecimento': date_of_death_list
+        'Data de Falecimento - Calendario Hebraico': date_of_death_list_hebrew,
+        'Data de Falecimento - Calendario Cristão': date_of_death_list_cristian
     }
 
 
